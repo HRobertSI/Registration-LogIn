@@ -21,16 +21,24 @@ mysqli_set_charset($dbc,'utf-8');
 }
 
 function registerNewUser($registration_name, $registration_password) {
+    
+    $salt = getSalt();
+    $password = crypt($registration_password, $salt);
+    
     $link = connectDatabase();
     
     $username = mysqli_real_escape_string($link, $registration_name);
-    $password = mysqli_real_escape_string($link, $registration_password);
+    //$password = mysqli_real_escape_string($link, $registration_password);
     
     $query = "INSERT INTO RegLogIn (username, password) VALUES ('$username', '$password')";
 
     mysqli_query($link, $query);
     mysqli_close($link);
     
-    
 }
-    
+
+function getSalt() {
+    $salt_temp = str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    $salt = '$5$' . substr($salt_temp, 0, 16); // I use SHA-256
+    return $salt;
+}

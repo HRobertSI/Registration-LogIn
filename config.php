@@ -42,3 +42,34 @@ function getSalt() {
     $salt = '$5$' . substr($salt_temp, 0, 16); // I use SHA-256
     return $salt;
 }
+
+function getAllGloves() {
+    
+    $link = connectDatabase();
+    
+    $query = "SELECT * FROM gloves";
+    
+    $result = mysqli_query($link, $query);
+    
+    mysqli_close($link);
+
+    return $result;
+              
+}
+
+function numberOfProducts(){
+    
+    $link = connectDatabase();
+    
+    $query = "SELECT COUNT(gID) FROM gloves";
+    
+    $result = mysqli_query($link, $query);
+    
+    $result = $result->fetch_array();
+    $quantity = intval($result[0]);
+       
+    mysqli_close($link);
+
+    return $quantity;
+   
+}

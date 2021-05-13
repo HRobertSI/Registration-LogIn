@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once './gloves.php';
+require_once './config.php';
 ?>
 
 <!DOCTYPE html>
@@ -26,34 +26,37 @@ require_once './gloves.php';
                 <th>Image</th>
             </tr>
             <?php
-            $number_of_products = gloves::$count;
-            for($i=1; $i<=(gloves::$count); $i++){
-                $vars = get_object_vars ( ${"id".$i} );
+            
+            $glovesList = getAllGloves();
+            
+            while ($row = mysqli_fetch_assoc($glovesList)):
+
             ?>
+            
             <tr>
-                <td><?= $vars['type'] ?></td>
-                <td><?= $vars['name'] ?></td>
-                <td><?= $vars['colour'] ?></td>
-                <td><?= $vars['code'] ?></td>
-                <td id="<?= $vars['name']?>"><?= $vars['price'] ?></td>
-                <td><?= $vars['size'] ?></td>
+                <td><?= $row['gtype'] ?></td>
+                <td><?= $row['gname'] ?></td>
+                <td><?= $row['gcolour'] ?></td>
+                <td><?= $row['gcode'] ?></td>
+                <td id="<?= $row['gname']?>"><?= $row['gprice'] ?></td>
+                <td><?= $row['gsize'] ?></td>
                 <td><img
-                    id="<?= $i ?>"
+                    id="<?= $row['gID'] ?>"
                     class="slika"
-                    alt="<?= $vars['name']?>"
-                    src="./images/<?= $vars['image']?>"  width="80"
-                    onclick="open_modal(<?= $i ?>)"
+                    alt="<?= $row['gname']?>"
+                    src="./images/<?= $row['gimage']?>"  width="80"
+                    onclick="open_modal(<?= $row['gID'] ?>)"
                     draggable="true" 
                     ondragstart="drag(event)"
                     >
                 </td>
 
             </tr>
-            <?php }?>
+            <?php endwhile;?>
         </table>
         <div class="div_cart">
             <img id="cart" src="./images/cart.png" width="150" ondrop="drop(event)" ondragover="allowDrop(event)">
-            <img id="rubbish" src="./images/bin2.png" ondrop="drop2(event)" ondragover="allowDrop2(event)" width="70">            
+            <img id="rubbish" src="./images/rubbish.png" ondrop="drop2(event)" ondragover="allowDrop2(event)" width="70">            
         <fieldset id="fieldset_list">
             <legend>Produits sélectionnés:</legend>
             <table id="list_selected_products">
@@ -66,12 +69,23 @@ require_once './gloves.php';
             if(isset($_SESSION['total'])) {
                 $total=$_SESSION['total'];
             }
-            $cart_id=1;
+            //$cart_id=1;
             foreach ($cart as $value) {
-                echo '<tr id="'.'cart'.$cart_id.'" draggable="true" ondragstart="drag2(event)"><td>'.$value[0]."</td><td>".$value[1]."</td></tr>";
-                $cart_id++;
+                echo '<tr id="'.$value[1].'" draggable="true" ondragstart="drag2(event)"><td>'.$value[0]."</td><td>".$value[1]."</td></tr>";
+                //$cart_id++;
             }
-            echo "<tr><td><strong>Total: </td><td>".array_sum($total)."</strong></td><tr>";
+            
+            $discardedtotal=[];
+            if(isset($_SESSION['discardedtotal'])) {
+                $discardedtotal=$_SESSION['discardedtotal'];
+            }
+            
+            $totalcomplet = array_sum($total)-array_sum($discardedtotal);
+            
+            
+            echo "<tr><td><strong>Total: </td><td>".array_sum($total)."</strong></td><tr>"
+                    . "<tr><td><strong>Total reduit: </td><td>".array_sum($discardedtotal)."</strong></td><tr>"
+                    . "<tr><td><strong>Total complet: </td><td>".$totalcomplet."</strong></td><tr>";
             ?>
             </table>
             <?php echo "<form action = 'check_out.php'>";
@@ -121,6 +135,7 @@ require_once './gloves.php';
             var data = ev.dataTransfer.getData("text");
             var el = document.getElementById(data);
             el.parentNode.removeChild(el);
+            window.location.href="rubbish.php?id="+data;
             } 
            
             function open_modal(id) {

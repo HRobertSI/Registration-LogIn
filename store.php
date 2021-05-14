@@ -71,7 +71,7 @@ require_once './config.php';
             }
             //$cart_id=1;
             foreach ($cart as $value) {
-                echo '<tr id="'.$value[1].'" draggable="true" ondragstart="drag2(event)"><td>'.$value[0]."</td><td>".$value[1]."</td></tr>";
+                echo '<tr id="'.'cart'.$value[1].'" draggable="true" ondragstart="drag2(event)"><td>'.$value[0]."</td><td>".$value[1]."</td></tr>";
                 //$cart_id++;
             }
             
@@ -82,10 +82,11 @@ require_once './config.php';
             
             $totalcomplet = array_sum($total)-array_sum($discardedtotal);
             
+            echo "<tr><td><strong>Total: </td><td>".$totalcomplet."</strong></td><tr>";
             
-            echo "<tr><td><strong>Total: </td><td>".array_sum($total)."</strong></td><tr>"
+            /*echo "<tr><td><strong>Total: </td><td>".array_sum($total)."</strong></td><tr>"
                     . "<tr><td><strong>Total reduit: </td><td>".array_sum($discardedtotal)."</strong></td><tr>"
-                    . "<tr><td><strong>Total complet: </td><td>".$totalcomplet."</strong></td><tr>";
+                    . "<tr><td><strong>Total complet: </td><td>".$totalcomplet."</strong></td><tr>";*/
             ?>
             </table>
             <?php echo "<form action = 'check_out.php'>";
@@ -107,7 +108,7 @@ require_once './config.php';
         </div>
         <script>
                        
-           function allowDrop(ev) {
+            function allowDrop(ev) {
             ev.preventDefault();
             }
 
@@ -126,7 +127,7 @@ require_once './config.php';
             ev.preventDefault();
             }
             
-           function drag2(ev) {
+            function drag2(ev) {
             ev.dataTransfer.setData("text", ev.target.id);
             }
             
@@ -137,7 +138,7 @@ require_once './config.php';
             el.parentNode.removeChild(el);
             window.location.href="rubbish.php?id="+data;
             } 
-           
+                   
             function open_modal(id) {
                 var modal = document.getElementById("myModal");
                 var img = document.getElementById(id); 

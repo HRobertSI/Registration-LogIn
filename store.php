@@ -89,7 +89,7 @@ require_once './config.php';
                     . "<tr><td><strong>Total complet: </td><td>".$totalcomplet."</strong></td><tr>";*/
             ?>
             </table>
-            <?php echo "<form action = 'check_out.php'>";
+            <?php echo "<form action = 'thankyou.php'>";
             echo "<input type='submit' value='Acheter'>";
             echo "</form>"; 
             ?>

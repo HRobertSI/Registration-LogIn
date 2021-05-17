@@ -38,14 +38,31 @@ function getProductPrice($id){
     
 }
 
+function getProductCode($id){
+    
+    $link = connectDatabase();
+    
+    $query = "SELECT gcode FROM gloves WHERE gID =".$id;
+    
+    $result = mysqli_query($link, $query);
+    $result = $result->fetch_array();
+    $productcode = $result[0];
+    
+    mysqli_close($link);
+
+    return $productcode;
+    
+}
+
 $productname = getProductName($id);
 $productprice = getProductPrice($id);
+$productcode = getProductCode($id);
 
 if(!isset($_SESSION['cart'])){
     $_SESSION['cart'] = [];
 }
 
-$_SESSION['cart'][] = array($productname, $productprice);
+$_SESSION['cart'][] = array($productname, $productprice, $productcode);
 
    
 $_SESSION['total']=[];  

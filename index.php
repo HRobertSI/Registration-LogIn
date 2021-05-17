@@ -18,8 +18,8 @@ session_start();
         
   <?php
     extract($_POST); // I prefer submit buttons in the form, in this case the extract() function seems the best
-    //if(isset($register)) {header('Location: register.php');}
-    if(isset($register)) {header('Location: store.php');}
+    if(isset($register)) {header('Location: register.php');}
+    //if(isset($register)) {header('Location: store.php');}
     if(isset($login)) {header('Location: login.php');}
     exit;
   ?>

@@ -1,7 +1,7 @@
 <?php
 require_once 'Swift-5.0.3/lib/swift_required.php';
 require_once './config.php';
-session_start();
+//session_start();
 ?>
 
 <!DOCTYPE html>
@@ -13,8 +13,8 @@ session_start();
     <body>
         <?php
             $cart = $_SESSION['cart'];
-            //echo "Merci ".$_SESSION['registration_name']. " pour votre achat.<br>";
-            //echo "Nous venons d&#146envoyer une confirmation &#224 ".$_SESSION['registration_mail'].".<br>";
+            echo "Merci ".$_SESSION['registration_name']. " pour votre achat.<br>";
+            echo "Nous venons d&#146envoyer une confirmation &#224 ".$_SESSION['registration_mail'].".<br>";
             echo "Les produits achet&#233s: "."<br>";
             foreach ($cart as $value) {echo $value[2]."<br>";}
             uploadBoughtProducts($cart);
@@ -24,7 +24,7 @@ session_start();
 
 <?php
 
-/*$name = $_SESSION['registration_name'];
+$name = $_SESSION['registration_name'];
 $email = $_SESSION['registration_mail'];
 $text = "Nous avons plaisir de confirmer votre achat pour un total de ".array_sum(@$_SESSION['total'])." €. Merci.";
 
@@ -49,9 +49,3 @@ $mailer = Swift_Mailer::newInstance($transport);
 
 $result = $mailer->send($message);
 
-/*if($result){
-	echo "Message send ok";
-}else{
-	echo "Problems with sending the message";
-}
-*/

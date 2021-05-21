@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 require_once './config.php';
 ?>
 
@@ -13,7 +13,7 @@ require_once './config.php';
         <link rel="stylesheet" href="storeNEW3.css">
     </head>
     <body>
-
+        <p style="text-indent: 65em;">Salut <span style="color: #cc4662"><?= $_SESSION['registration_name'] ?></span></p>
         <table border='1'>
             <caption>Nos produits:</caption>
             <tr>

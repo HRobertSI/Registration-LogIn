@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 /*
 $host = "localhost";
 $user = "lllcuser";
@@ -98,4 +98,37 @@ function uploadBoughtProducts($cart){
     
     mysqli_close($link);
 
+}
+
+function login($login_name, $login_password) {
+    $link = connectDatabase();
+
+    $login_name = mysqli_real_escape_string($link, $login_name);
+
+    $query = "SELECT * FROM RegLogIn WHERE username='$login_name'";
+
+    $result = mysqli_query($link, $query);
+
+    $user = $result->fetch_array();
+    
+    //$user = "Bienvenue ".$result[1];
+
+    mysqli_close($link);
+        
+    $error = "Fausses informations d'identification";
+    
+    if ($user) {
+        $hash = $user['password'];
+        if ($hash == crypt($login_password, $hash)) {
+
+            $_SESSION["UserID"] = $user['UserID'];
+            $_SESSION["username"] = $user['username'];
+            
+            return true;
+        } else {
+            return $error;
+        }
+    } else {
+        return $error;
+    }
 }

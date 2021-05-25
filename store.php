@@ -1,6 +1,13 @@
 <?php
 //session_start();
 require_once './config.php';
+
+if (isset($_SESSION['registration_name'])) {
+    $_SESSION['registration_or_login_name'] = $_SESSION['registration_name'];
+} elseif (isset($_SESSION['login_name'])) {
+    $_SESSION['registration_or_login_name'] = $_SESSION['login_name'];
+}
+//to greet the user, either after he registers or logs in
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +20,7 @@ require_once './config.php';
         <link rel="stylesheet" href="storeNEW3.css">
     </head>
     <body>
-        <p style="text-indent: 65em;">Salut <span style="color: #cc4662"><?= $_SESSION['registration_name'] ?></span></p>
+        <p style="text-indent: 65em;">Salut <span style="color: #cc4662"><?= $_SESSION['registration_or_login_name']; ?></span></p>
         <table border='1'>
             <caption>Nos produits:</caption>
             <tr>

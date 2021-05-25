@@ -26,7 +26,8 @@ and open the template in the editor.
     </head>
     <body>
         
-        <?php 
+        <?php
+        
             if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' ) //sticky form, if you leave the field empty or enter an invalid e-mail address, the correct fields keep the values TEST BY CLICKING SUBMIT
             {
                 if (empty($_POST['registration_name']))  {echo "Erreur, votre nom d&#146utilisateur n&#146est pas correct! ";}
@@ -35,7 +36,9 @@ and open the template in the editor.
                              
                 if (!filter_var($_POST['registration_mail'], FILTER_VALIDATE_EMAIL)) {echo "Erreur, votre courriel n&#146est pas correct! ";}
                 
-                if (!empty($_POST['registration_name']) && !empty($_POST['registration_password']) && filter_var($_POST['registration_mail'], FILTER_VALIDATE_EMAIL))
+                if (checkIfMailExists($_POST['registration_mail']) == 1) {echo "Erreur, ce courriel est d&#233j&#224 utilis&#233! ";} //see if the e-mail address has been registered
+                
+                if (!empty($_POST['registration_name']) && !empty($_POST['registration_password']) && filter_var($_POST['registration_mail'], FILTER_VALIDATE_EMAIL) && checkIfMailExists($_POST['registration_mail']) != 1) 
                 {
                 $_SESSION['registration_name']=$_POST['registration_name'];
                 $_SESSION['registration_password']=$_POST['registration_password'];

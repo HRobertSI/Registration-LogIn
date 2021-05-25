@@ -2,6 +2,13 @@
 require_once 'Swift-5.0.3/lib/swift_required.php';
 require_once './config.php';
 //session_start();
+
+if (isset($_SESSION['registration_name'])) {
+    $_SESSION['registration_or_login_mail'] = $_SESSION['registration_mail'];
+} elseif (isset($_SESSION['login_name'])) {
+    $login_name = $_SESSION['login_name'];
+    $_SESSION['registration_or_login_mail'] = getLoginMail($login_name);
+}
 ?>
 
 <!DOCTYPE html>
@@ -13,8 +20,8 @@ require_once './config.php';
     <body>
         <?php
             $cart = $_SESSION['cart'];
-            echo "Merci ".$_SESSION['registration_name']. " pour votre achat.<br>";
-            echo "Nous venons d&#146envoyer une confirmation &#224 ".$_SESSION['registration_mail'].".<br>";
+            echo "Merci ".$_SESSION['registration_or_login_name']. " pour votre achat.<br>";
+            echo "Nous venons d&#146envoyer une confirmation &#224 ".$_SESSION['registration_or_login_mail'].".<br>";
             echo "Les produits achet&#233s: "."<br>";
             foreach ($cart as $value) {echo $value[2]."<br>";}
             uploadBoughtProducts($cart);
@@ -24,8 +31,8 @@ require_once './config.php';
 
 <?php
 
-$name = $_SESSION['registration_name'];
-$email = $_SESSION['registration_mail'];
+$name = $_SESSION['registration_or_login_name'];
+$email = $_SESSION['registration_or_login_mail'];
 $text = "Nous avons plaisir de confirmer votre achat pour un total de ".array_sum(@$_SESSION['total'])." €. Merci.";
 
 

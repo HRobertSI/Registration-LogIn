@@ -21,9 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $login_result = login($login_name, $login_password);
     if ($login_result == 1){
+        $_SESSION['login_name'] = $login_name;
         header('Location: store.php');
         exit;
-    } 
+    } elseif ($login_result != 1) {
+    echo "Fausses informations d'identification";
+}
 }
 
 ?>

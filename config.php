@@ -81,9 +81,9 @@ function uploadBoughtProducts($cart){
     
     $cart = $_SESSION['cart'];
     
-    $registration_name = $_SESSION['registration_name'];
+    $name_of_buyer = $_SESSION['registration_or_login_name'];
     
-    $username = mysqli_real_escape_string($link, $registration_name);
+    $username = mysqli_real_escape_string($link, $name_of_buyer);
     
     $query = "SELECT UserID FROM RegLogIn where username = '$username'";
            
@@ -114,8 +114,6 @@ function login($login_name, $login_password) {
     //$user = "Bienvenue ".$result[1];
 
     mysqli_close($link);
-        
-    $error = "Fausses informations d'identification";
     
     if ($user) {
         $hash = $user['password'];
@@ -126,9 +124,43 @@ function login($login_name, $login_password) {
             
             return true;
         } else {
-            return $error;
+            return false;
         }
     } else {
-        return $error;
+        return false;
     }
+}
+
+function getLoginMail($login_name) {
+    $link = connectDatabase();
+    
+    $login_name = mysqli_real_escape_string($link, $login_name);
+
+    $query = "SELECT mail FROM RegLogIn WHERE username='$login_name'";
+    
+    $result = mysqli_query($link, $query);
+
+    $result = $result->fetch_array();
+    
+    $login_mail = $result['mail'];
+    
+    mysqli_close($link);
+    
+    return $login_mail;
+}
+
+function checkIfMailExists($registration_mail) {
+    
+    $link = connectDatabase();
+    
+    $query = "SELECT mail FROM RegLogIn WHERE mail = '$registration_mail'";
+    
+    $result = mysqli_num_rows(mysqli_query($link, $query));
+    
+    if($result != 0){
+        return true;
+    }
+    
+    mysqli_close($link);
+    
 }

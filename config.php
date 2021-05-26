@@ -45,7 +45,7 @@ function getSalt() {
     return $salt;
 }
 
-function getAllGloves() {
+function getAllGloves() { //download gloves to present them in store.php
     
     $link = connectDatabase();
     
@@ -59,7 +59,7 @@ function getAllGloves() {
               
 }
 
-function numberOfProducts(){
+/*function numberOfProducts(){
     
     $link = connectDatabase();
     
@@ -74,9 +74,9 @@ function numberOfProducts(){
 
     return $quantity;
    
-}
+}*/
 
-function uploadBoughtProducts($cart){
+function uploadBoughtProducts($cart){ //to keep statistics of purchases in the separate table BoughtProducts
     $link = connectDatabase();
     
     $cart = $_SESSION['cart'];
@@ -111,7 +111,6 @@ function login($login_name, $login_password) {
 
     $user = $result->fetch_array();
     
-    //$user = "Bienvenue ".$result[1];
 
     mysqli_close($link);
     
@@ -131,7 +130,7 @@ function login($login_name, $login_password) {
     }
 }
 
-function getLoginMail($login_name) {
+function getLoginMail($login_name) { //when the user logs in, he doesn't enter his e-mail address, but we need this address when sending a confirmation mail
     $link = connectDatabase();
     
     $login_name = mysqli_real_escape_string($link, $login_name);
@@ -149,7 +148,7 @@ function getLoginMail($login_name) {
     return $login_mail;
 }
 
-function checkIfMailExists($registration_mail) {
+function checkIfMailExists($registration_mail) { //this function prevents registration of a second user with an already registered e-mail
     
     $link = connectDatabase();
     

@@ -90,10 +90,7 @@ if (isset($_SESSION['registration_name'])) {
             $totalcomplet = array_sum($total)-array_sum($discardedtotal);
             
             echo "<tr><td><strong>Total: </td><td>".$totalcomplet."</strong></td><tr>";
-            
-            /*echo "<tr><td><strong>Total: </td><td>".array_sum($total)."</strong></td><tr>"
-                    . "<tr><td><strong>Total reduit: </td><td>".array_sum($discardedtotal)."</strong></td><tr>"
-                    . "<tr><td><strong>Total complet: </td><td>".$totalcomplet."</strong></td><tr>";*/
+                        
             ?>
             </table>
             <?php echo "<form action = 'thankyou.php'>";
@@ -143,7 +140,7 @@ if (isset($_SESSION['registration_name'])) {
             var data = ev.dataTransfer.getData("text");
             var el = document.getElementById(data);
             el.parentNode.removeChild(el);
-            window.location.href="rubbish.php?id="+data;
+            window.location.href="rubbish.php?id="+data; //doesn't work - the page store.php gets refreshed with the removed value still there
             } 
                    
             function open_modal(id) {

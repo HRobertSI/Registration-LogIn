@@ -15,11 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         
     $login_result = login($login_name, $login_password);
-    if ($login_result == 1){
+    if ($login_result == "notAdmin"){
         $_SESSION['login_name'] = $login_name;
         header('Location: store.php');
         exit;
-    } elseif ($login_result != 1) {
+    } elseif ($login_result == "isAdmin") {
+    header('Location: admin.php');
+} 
+    elseif ($login_result == 0) {
     echo "Fausses informations d'identification";
 }
 }
@@ -38,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <legend>Merci d'avoir choisi notre magasin. Saisissez votre nom d'utilisateur et le mot de passe s'il vous pla&#238t:</legend>
                 Votre nom d'utilisateur: <input type="text" name="login_name" value="<?= $login_name ?>"><br>
                 Votre mot de passe: <input type="password" name="login_password" value="<?= $login_password ?>"><br>
-                <input type="submit">
+                <input type="submit" value="Envoyer les données">
             </fieldset>
         </form>
     </body>

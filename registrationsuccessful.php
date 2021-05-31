@@ -13,7 +13,7 @@ and open the template in the editor.
         
         <form action="store.php" method="POST">
         <div style="text-align: center;">
-        <span>Enregistrement confirmé</span><br><br>
+        <h1>Enregistrement confirmé</h1><br><br>
         <input type="submit" name="entrerlemagasin" value="Entrer le magasin">
         </div>
         </form>

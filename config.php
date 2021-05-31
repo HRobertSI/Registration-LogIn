@@ -33,9 +33,10 @@ function registerNewUser($registration_name, $registration_password, $registrati
     $mail = mysqli_real_escape_string($link, $registration_mail);
     
     $query = "INSERT INTO RegLogIn (username, password, mail) VALUES ('$username', '$password', '$mail')";
-
+    
     mysqli_query($link, $query);
     mysqli_close($link);
+    
     
 }
 
@@ -120,9 +121,11 @@ function login($login_name, $login_password) {
 
             $_SESSION["UserID"] = $user['UserID'];
             $_SESSION["username"] = $user['username'];
+            $_SESSION["isAdmin"] = $user['isAdmin'];
             
-            return true;
-        } else {
+            if ($_SESSION["isAdmin"] == 1){return "isAdmin";} else {return "notAdmin";}
+            
+            } else {
             return false;
         }
     } else {
@@ -162,4 +165,31 @@ function checkIfMailExists($registration_mail) { //this function prevents regist
     
     mysqli_close($link);
     
+}
+
+function checkIfCodeExists($add_code) {
+    
+    $link = connectDatabase();
+    
+    $query = "SELECT gcode FROM gloves WHERE gcode = '$add_code'";
+    
+    $result = mysqli_num_rows(mysqli_query($link, $query));
+    
+    if($result != 0){
+        return true;
+    }
+    
+    mysqli_close($link);    
+    
+}
+
+function addProduct($add_typ, $add_nom, $add_couleur, $add_code, $add_prix, $add_taille, $add_image) {
+    
+    $link = connectDatabase();
+    
+    $query = "INSERT INTO gloves (gtype, gname, gcolour, gcode, gprice, gsize, gimage) VALUES ('$add_typ', '$add_nom', '$add_couleur', '$add_code', '$add_prix', '$add_taille', '$add_image')";
+    
+    mysqli_query($link, $query);
+    
+    mysqli_close($link);
 }
